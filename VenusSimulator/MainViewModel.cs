@@ -86,7 +86,7 @@ namespace VenusSimulator
       {
          _window.WindowState = WindowState.Minimized;
 
-         _clicker.Start( Operations );
+         _clicker.Start( Operations.Where( x => x.IsEnabled ) );
          Running = true;
 
       }, () => Operations.Any() ) );

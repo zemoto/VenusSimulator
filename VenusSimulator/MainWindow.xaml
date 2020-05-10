@@ -27,14 +27,17 @@
          <DataGrid.Columns>
             <DataGridTextColumn Header="Name"
                                 Binding="{Binding Name}" />
-            <DataGridTextColumn Header="Template File Path"
-                                Binding="{Binding TemplateFilePath}" />
+            <DataGridTextColumn Header="Template File Name"
+                                Binding="{Binding TemplateFileName}" />
             <DataGridTextColumn Header="Id"
                                 Binding="{Binding TemplateId}" />
-            <DataGridTextColumn Header="Skip Count"
+            <DataGridTextColumn Header="Skip"
                                 Binding="{Binding SkipCountAfterMatch}" />
             <DataGridTextColumn Header="Click Action"
                                 Binding="{Binding Action}" />
+
+            <DataGridCheckBoxColumn Header="Enabled"
+                                    Binding="{Binding IsEnabled, Mode=TwoWay}" />
 
             <DataGridTemplateColumn>
                <DataGridTemplateColumn.CellTemplate>
@@ -59,7 +62,7 @@
 
       <TextBlock Grid.Row="1"
                  Margin="8">
-         <Run Text="Status: " /><Run Text="{Binding Running}" />
+         <Run Text="Running: " /><Run Text="{Binding Running}" />
       </TextBlock>
 
       <UniformGrid Grid.Row="2"

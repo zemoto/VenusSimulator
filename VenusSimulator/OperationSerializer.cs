@@ -42,26 +42,14 @@ namespace VenusSimulator
 
       private static void MoveTemplateFiles( IEnumerable<MatchOperation> operations )
       {
-         try
-         {
-            UtilityMethods.CreateDirectory( TemplatesDirectory );
+         UtilityMethods.CreateDirectory( TemplatesDirectory );
 
-            foreach ( var operation in operations )
+         foreach ( var operation in operations )
+         {
+            if ( FileUtils.CopyFileToFolder( operation.TemplateFilePath, TemplatesDirectory, out var newPath ) )
             {
-               var fileName = Path.GetFileName( operation.TemplateFilePath );
-               var target = Path.Combine( TemplatesDirectory, fileName );
-
-               if ( !string.IsNullOrEmpty( operation.TemplateFilePath ) )
-               {
-                  File.Copy( operation.TemplateFilePath, target );
-                  operation.TemplateFilePath = target;
-
-               }
+               operation.TemplateFilePath = newPath;
             }
-         }
-         catch
-         {
-            // Ignore
          }
       }
 
