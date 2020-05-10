@@ -1,0 +1,79 @@
+﻿<Window x:Class="VenusSimulator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VenusSimulator"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type={x:Type local:MainViewModel}}"
+        Title="Venus Simulator"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        x:Name="Root">
+
+   <Grid>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="*" />
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <DataGrid Grid.Row="0"
+                ItemsSource="{Binding Operations}"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False">
+         <DataGrid.Columns>
+            <DataGridTextColumn Header="Name"
+                                Binding="{Binding Name}" />
+            <DataGridTextColumn Header="Template File Path"
+                                Binding="{Binding TemplateFilePath}" />
+            <DataGridTextColumn Header="Id"
+                                Binding="{Binding TemplateId}" />
+            <DataGridTextColumn Header="Skip Count"
+                                Binding="{Binding SkipCountAfterMatch}" />
+            <DataGridTextColumn Header="Click Action"
+                                Binding="{Binding Action}" />
+
+            <DataGridTemplateColumn>
+               <DataGridTemplateColumn.CellTemplate>
+                  <ItemContainerTemplate>
+                     <Button Content="x"
+                             Command="{Binding ElementName=Root, Path=DataContext.DeleteOperationCommand}"
+                             CommandParameter="{Binding}" />
+                  </ItemContainerTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn>
+               <DataGridTemplateColumn.CellTemplate>
+                  <ItemContainerTemplate>
+                     <Button Content="^"
+                             Command="{Binding ElementName=Root, Path=DataContext.IncreasePriorityCommand}"
+                             CommandParameter="{Binding}" />
+                  </ItemContainerTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+         </DataGrid.Columns>
+      </DataGrid>
+
+      <TextBlock Grid.Row="1"
+                 Margin="8">
+         <Run Text="Status: " /><Run Text="{Binding Running}" />
+      </TextBlock>
+
+      <UniformGrid Grid.Row="2"
+                   Columns="4"
+                   Height="24">
+         <Button Content="Save"
+                 Command="{Binding SaveOperationsCommand}" />
+         <Button Content="Load"
+                 Command="{Binding LoadOperationsCommand}" />
+         <Button Content="Add"
+                 Command="{Binding CreateOperationCommand}" />
+         <Button Content="Start"
+                 Command="{Binding StartCommand}" />
+      </UniformGrid>
+
+   </Grid>
+</Window>
