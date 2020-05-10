@@ -21,25 +21,32 @@ namespace VenusSimulator
          {
             var image = new Image<Gray, byte>( filePath );
             _templates.Add( image );
+
+            return _templates.Count - 1;
          }
          catch ( ArgumentException )
          {
             return -1;
          }
-
-         return _templates.Count - 1;
       }
 
-      public void RemoveTemplate( int templateId ) => _templates.RemoveAt( templateId );
+      public void RemoveTemplate( int templateId )
+      {
+         var template = _templates[templateId];
+         template.Dispose();
+
+         _templates.RemoveAt( templateId );
+      }
 
       private Point IsImageOnScreen( int templateId )
       {
-         var desktop = CaptureScreen();
-
-         using ( var result = desktop.MatchTemplate( _templates[templateId], Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed ) )
+         using ( var desktop = CaptureScreen() )
          {
-            result.MinMax( out _, out var maxValues, out _, out var maxLocations );
-            return maxValues[0] >= Properties.Settings.Default.MatchTolerance ? maxLocations[0] : Point.Empty;
+            using ( var result = desktop.MatchTemplate( _templates[templateId], Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed ) )
+            {
+               result.MinMax( out _, out var maxValues, out _, out var maxLocations );
+               return maxValues[0] >= Properties.Settings.Default.MatchTolerance ? maxLocations[0] : Point.Empty;
+            }
          }
       }
 
@@ -53,12 +60,14 @@ namespace VenusSimulator
 
          for ( int i = 0; i < results.Length; i++ )
          {
-            if ( results[i] != Point.Empty )
+            if ( results[i] == Point.Empty )
             {
-               var foundImage = _templates[templateIds[i]];
-               var lastDetectedLocation = new Point( results[i].X + foundImage.Width / 2, results[i].Y + foundImage.Height / 2 );
-               return (templateIds[i], lastDetectedLocation);
+               continue;
             }
+
+            var foundImage = _templates[templateIds[i]];
+            var location = new Point( results[i].X + foundImage.Width / 2, results[i].Y + foundImage.Height / 2 );
+            return (templateIds[i], location);
          }
 
          return (-1, Point.Empty);
@@ -66,15 +75,17 @@ namespace VenusSimulator
 
       private Image<Gray, byte> CaptureScreen()
       {
-         var desktop = new Bitmap( (int)SystemParameters.VirtualScreenWidth, (int)SystemParameters.VirtualScreenHeight, PixelFormat.Format24bppRgb );
+         var desktopSize = new System.Drawing.Size( (int)SystemParameters.VirtualScreenWidth, (int)SystemParameters.VirtualScreenHeight );
 
-         using ( var graphics = Graphics.FromImage( desktop ) )
+         using ( var desktop = new Bitmap( desktopSize.Width, desktopSize.Height, PixelFormat.Format24bppRgb ) )
          {
-            var size = new System.Drawing.Size( (int)SystemParameters.VirtualScreenWidth, (int)SystemParameters.VirtualScreenHeight );
-            graphics.CopyFromScreen( 0, 0, 0, 0, size, CopyPixelOperation.SourceCopy );
-         }
+            using ( var graphics = Graphics.FromImage( desktop ) )
+            {
+               graphics.CopyFromScreen( 0, 0, 0, 0, desktopSize, CopyPixelOperation.SourceCopy );
+            }
 
-         return desktop.ToImage<Gray, byte>();
+            return desktop.ToImage<Gray, byte>();
+         }
       }
    }
 }

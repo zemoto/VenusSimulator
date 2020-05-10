@@ -5,8 +5,6 @@ namespace VenusSimulator
 {
    internal static class RealisticMouseMover
    {
-      private const double Gravity = 9.0;
-
       private static readonly Random Rand = new Random();
 
       public static void MoveMouse( double x, double y )
@@ -37,9 +35,10 @@ namespace VenusSimulator
          int newY = (int)Math.Round( startY );
 
          double waitDiff = maxWait - minWait;
-         double sqrt2 = Math.Sqrt( 2.0 );
-         double sqrt3 = Math.Sqrt( 3.0 );
-         double sqrt5 = Math.Sqrt( 5.0 );
+         const double sqrt2 = 1.41421356237;
+         const double sqrt3 = 1.73205080757;
+         const double sqrt5 = 2.2360679775;
+         const double gravity = 9.0;
 
          var dist = Hypotenuse( endX - startX, endY - startY );
 
@@ -69,15 +68,15 @@ namespace VenusSimulator
 
             velocityX += windX;
             velocityY += windY;
-            velocityX += Gravity * ( endX - startX ) / dist;
-            velocityY += Gravity * ( endY - startY ) / dist;
+            velocityX += gravity * ( endX - startX ) / dist;
+            velocityY += gravity * ( endY - startY ) / dist;
 
             if ( Hypotenuse( velocityX, velocityY ) > maxStep )
             {
                var randomDist = maxStep / 2.0 + Rand.Next( (int)Math.Round( maxStep ) / 2 );
                var veloMag = Hypotenuse( velocityX, velocityY );
-               velocityX =  velocityX / veloMag  * randomDist;
-               velocityY =  velocityY / veloMag  * randomDist;
+               velocityX = velocityX / veloMag * randomDist;
+               velocityY = velocityY / veloMag * randomDist;
             }
 
             var oldX = (int)Math.Round( startX );
