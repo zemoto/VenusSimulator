@@ -42,7 +42,7 @@ namespace VenusSimulator
             operation.Name = NameTextBox.Text;
             operation.TemplateFilePath = TemplateFilePathTextBox.Text;
             operation.TemplateId = id;
-            operation.Action = (MatchAction)( (BoundEnumMember)ActionComboBox.SelectedItem ).Value ;
+            operation.Action = (MatchAction)( (BoundEnumMember)ActionComboBox.SelectedItem ).Value;
 
             if ( !string.IsNullOrEmpty( SkipCountTextBox.Text ) )
             {

@@ -10,8 +10,8 @@ namespace VenusSimulator
    {
       [Description("Click")]
       Click,
-      [Description("Don't click if matched")]
-      DontClick,
+      [Description("Pause clicking if matched")]
+      PauseClicking,
       [Description("Stop clicking if matched")]
       StopClicking
    }
