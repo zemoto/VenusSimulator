@@ -76,7 +76,7 @@
 
       <TextBlock Grid.Row="6"
                  Grid.Column="0"
-                 Text="Skip Count:"
+                 Text="Action:"
                  VerticalAlignment="Center" />
       <ComboBox x:Name="ActionComboBox"
                 ItemsSource="{commonUi:GetEnumValues {x:Type local:MatchAction}}"
