@@ -12,10 +12,10 @@ namespace VenusSimulator
    {
       private readonly ImageDetector _detector;
       private readonly Timer _timer = new Timer();
-      private readonly Dictionary<MatchOperation, int> _skipOperations = new Dictionary<MatchOperation, int>();
       private readonly object _timerLock = new object();
 
       private IEnumerable<MatchOperation> _operations;
+      private Dictionary<MatchOperation, int> _skipOperations;
       private bool _stopped;
 
       public EventHandler StopSignalDetected;
@@ -31,6 +31,7 @@ namespace VenusSimulator
       public void Start( IEnumerable<MatchOperation> operations )
       {
          _operations = operations;
+         _skipOperations = new Dictionary<MatchOperation, int>();
 
          lock ( _timerLock )
          {
