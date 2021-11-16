@@ -18,25 +18,21 @@ namespace VenusSimulator
 
          try
          {
-            using ( var stream = File.Open( SavedOperationsFileName, FileMode.Create, FileAccess.Write ) )
+            using var stream = File.Open( SavedOperationsFileName, FileMode.Create, FileAccess.Write );
+            var settings = new XmlWriterSettings
             {
-               var settings = new XmlWriterSettings
-               {
-                  Indent = true,
-                  NewLineHandling = NewLineHandling.Entitize,
-               };
+               Indent = true,
+               NewLineHandling = NewLineHandling.Entitize,
+            };
 
-               var serializer = new XmlSerializer( typeof( List<MatchOperation> ) );
-               using ( var xmlWriter = XmlWriter.Create( stream, settings ) )
-               {
-                  serializer.Serialize( xmlWriter, operations );
-                  MessageBox.Show( "Save Successful" );
-               }
-            }
+            var serializer = new XmlSerializer( typeof( List<MatchOperation> ) );
+            using var xmlWriter = XmlWriter.Create( stream, settings );
+            serializer.Serialize( xmlWriter, operations );
+            _ = MessageBox.Show( "Save Successful" );
          }
          catch
          {
-            MessageBox.Show( "Could not save operations" );
+            _ = MessageBox.Show( "Could not save operations" );
          }
       }
 
@@ -63,14 +59,12 @@ namespace VenusSimulator
          try
          {
             var serializer = new XmlSerializer( typeof( List<MatchOperation> ) );
-            using ( var stream = File.Open( SavedOperationsFileName, FileMode.Open, FileAccess.Read ) )
-            {
-               return serializer.Deserialize( stream ) as List<MatchOperation>;
-            }
+            using var stream = File.Open( SavedOperationsFileName, FileMode.Open, FileAccess.Read );
+            return serializer.Deserialize( stream ) as List<MatchOperation>;
          }
          catch
          {
-            MessageBox.Show( "Could not load operations" );
+            _ = MessageBox.Show( "Could not load operations" );
          }
 
          return null;

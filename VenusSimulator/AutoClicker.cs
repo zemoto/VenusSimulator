@@ -11,8 +11,8 @@ namespace VenusSimulator
    internal sealed class AutoClicker
    {
       private readonly ImageDetector _detector;
-      private readonly Timer _timer = new Timer();
-      private readonly object _timerLock = new object();
+      private readonly Timer _timer = new();
+      private readonly object _timerLock = new();
 
       private IEnumerable<MatchOperation> _operations;
       private Dictionary<MatchOperation, int> _skipOperations;
@@ -60,24 +60,22 @@ namespace VenusSimulator
          bool shouldClick = true;
          var clickLocation = new Point( SystemParameters.VirtualScreenWidth / 2, SystemParameters.VirtualScreenHeight / 2 );
 
-         var skippedOperations = _skipOperations.Keys.ToList();
-         foreach ( var operation in skippedOperations )
+         foreach ( var operation in _skipOperations.Keys.ToList() )
          {
             if ( _skipOperations[operation] <= 0 )
             {
-               _skipOperations.Remove( operation );
+               _ = _skipOperations.Remove( operation );
             }
             else
             {
-               _skipOperations[operation] -= 1;
+               _skipOperations[operation]--;
             }
          }
 
          var templateIds = _operations.Where( x => !_skipOperations.ContainsKey( x ) ).Select( x => x.TemplateId ).ToArray();
-
-         if ( templateIds.Any() )
+         if ( templateIds.Length > 0 )
          {
-            var ( foundId, location ) = await _detector.DetectImagesAsync( templateIds );
+            var (foundId, location) = await _detector.DetectImagesAsync( templateIds );
             if ( foundId != -1 )
             {
                var operation = _operations.First( x => x.TemplateId == foundId );
@@ -124,7 +122,7 @@ namespace VenusSimulator
          inputMouseDown.Data.Mouse.Flags = NativeMethods.MOUSEEVENTF.LEFTDOWN;
 
          var inputs = new[] { inputMouseDown };
-         NativeMethods.SendInput( (uint)inputs.Length, inputs, Marshal.SizeOf( typeof( NativeMethods.INPUT ) ) );
+         _ = NativeMethods.SendInput( (uint)inputs.Length, inputs, Marshal.SizeOf( typeof( NativeMethods.INPUT ) ) );
 
          await Task.Delay( new Random().Next( 100 ) );
 
@@ -132,7 +130,7 @@ namespace VenusSimulator
          inputMouseUp.Data.Mouse.Flags = NativeMethods.MOUSEEVENTF.LEFTUP;
 
          inputs = new[] { inputMouseUp };
-         NativeMethods.SendInput( (uint)inputs.Length, inputs, Marshal.SizeOf( typeof( NativeMethods.INPUT ) ) );
+         _ = NativeMethods.SendInput( (uint)inputs.Length, inputs, Marshal.SizeOf( typeof( NativeMethods.INPUT ) ) );
       }
    }
 }

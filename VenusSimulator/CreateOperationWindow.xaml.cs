@@ -55,7 +55,7 @@ namespace VenusSimulator
          }
          else
          {
-            MessageBox.Show( "Could not load selected template file" );
+            _ = MessageBox.Show( "Could not load selected template file" );
          }
       }
 

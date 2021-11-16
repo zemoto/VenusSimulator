@@ -8,12 +8,12 @@ namespace VenusSimulator
 {
    public enum MatchAction
    {
-      [Description("Click")]
-      Click,
-      [Description("Pause clicking if matched")]
-      PauseClicking,
-      [Description("Stop clicking if matched")]
-      StopClicking
+      [Description( "Click" )]
+      Click = 0,
+      [Description( "Pause clicking if matched" )]
+      PauseClicking = 1,
+      [Description( "Stop clicking if matched" )]
+      StopClicking = 2
    }
 
    [Serializable]
@@ -21,7 +21,7 @@ namespace VenusSimulator
    {
       public string Name { get; set; }
       public string TemplateFilePath { get; set; }
-      public int SkipCountAfterMatch { get; set; } = 0;
+      public int SkipCountAfterMatch { get; set; }
       public MatchAction Action { get; set; } = MatchAction.Click;
 
       private bool _isEnabled = true;

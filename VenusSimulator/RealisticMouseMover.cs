@@ -5,29 +5,31 @@ namespace VenusSimulator
 {
    internal static class RealisticMouseMover
    {
-      private static readonly Random Rand = new Random();
+      private const double MouseMovementWind = 1;
+      private const int MouseSpeedConstant = 15;
+      private const int MouseTargetDrift = 20;
+
+      private static readonly Random Rand = new();
 
       public static void MoveMouse( double x, double y )
       {
          var current = new NativeMethods.POINT();
-         NativeMethods.GetCursorPos( ref current );
+         _ = NativeMethods.GetCursorPos( ref current );
 
-         int drift = Properties.Settings.Default.MouseTargetDrift;
-         x += Rand.Next( drift * 2 ) - drift;
-         y += Rand.Next( drift * 2 ) - drift;
+         x += Rand.Next( MouseTargetDrift * 2 ) - MouseTargetDrift;
+         y += Rand.Next( MouseTargetDrift * 2 ) - MouseTargetDrift;
 
          AnimateMouseMove( current.x, current.y, x, y );
       }
 
       private static void AnimateMouseMove( double startX, double startY, double endX, double endY )
       {
-         int speedConstant = Properties.Settings.Default.MouseSpeedConstant;
-         double randomSpeed = ( Rand.Next( speedConstant ) / 2.0 + speedConstant ) / 10.0;
+         double randomSpeed = ( ( Rand.Next( MouseSpeedConstant ) / 2.0 ) + MouseSpeedConstant ) / 10.0;
          double minWait = 10.0 / randomSpeed;
          double maxWait = 15.0 / randomSpeed;
          double maxStep = 10.0 * randomSpeed;
          double targetArea = 10.0 * randomSpeed;
-         double wind = Properties.Settings.Default.MouseMovementWind;
+         double wind = MouseMovementWind;
 
          double windX = 0, windY = 0;
          double velocityX = 0, velocityY = 0;
@@ -48,9 +50,9 @@ namespace VenusSimulator
 
             if ( dist >= targetArea )
             {
-               int w = Rand.Next( (int)Math.Round( wind ) * 2 + 1 );
-               windX = windX / sqrt3 + ( w - wind ) / sqrt5;
-               windY = windY / sqrt3 + ( w - wind ) / sqrt5;
+               int w = Rand.Next( ( (int)Math.Round( wind ) * 2 ) + 1 );
+               windX = ( windX / sqrt3 ) + ( ( w - wind ) / sqrt5 );
+               windY = ( windY / sqrt3 ) + ( ( w - wind ) / sqrt5 );
             }
             else
             {
@@ -73,7 +75,7 @@ namespace VenusSimulator
 
             if ( Hypotenuse( velocityX, velocityY ) > maxStep )
             {
-               var randomDist = maxStep / 2.0 + Rand.Next( (int)Math.Round( maxStep ) / 2 );
+               var randomDist = ( maxStep / 2.0 ) + Rand.Next( (int)Math.Round( maxStep ) / 2 );
                var veloMag = Hypotenuse( velocityX, velocityY );
                velocityX = velocityX / veloMag * randomDist;
                velocityY = velocityY / veloMag * randomDist;
@@ -89,11 +91,11 @@ namespace VenusSimulator
 
             if ( oldX != newX || oldY != newY )
             {
-               NativeMethods.SetCursorPos( newX, newY );
+               _ = NativeMethods.SetCursorPos( newX, newY );
             }
 
             var step = Hypotenuse( startX - oldX, startY - oldY );
-            int wait = (int)Math.Round( waitDiff * ( step / maxStep ) + minWait );
+            int wait = (int)Math.Round( ( waitDiff * ( step / maxStep ) ) + minWait );
             Thread.Sleep( wait );
          }
 
@@ -101,10 +103,10 @@ namespace VenusSimulator
          int finalY = (int)Math.Round( endY );
          if ( finalX != newX || finalY != newY )
          {
-            NativeMethods.SetCursorPos( finalX, finalY );
+            _ = NativeMethods.SetCursorPos( finalX, finalY );
          }
       }
 
-      private static double Hypotenuse( double dx, double dy ) => Math.Sqrt( dx * dx + dy * dy );
+      private static double Hypotenuse( double dx, double dy ) => Math.Sqrt( ( dx * dx ) + ( dy * dy ) );
    }
 }

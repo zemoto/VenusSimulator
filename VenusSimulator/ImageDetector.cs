@@ -13,7 +13,9 @@ namespace VenusSimulator
 {
    internal sealed class ImageDetector
    {
-      private readonly List<Image<Gray, byte>> _templates = new List<Image<Gray, byte>>();
+      private const double MatchTolerance = 0.85;
+
+      private readonly List<Image<Gray, byte>> _templates = new();
 
       public int LoadTemplate( string filePath )
       {
@@ -40,14 +42,10 @@ namespace VenusSimulator
 
       private Point IsImageOnScreen( int templateId )
       {
-         using ( var desktop = CaptureScreen() )
-         {
-            using ( var result = desktop.MatchTemplate( _templates[templateId], Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed ) )
-            {
-               result.MinMax( out _, out var maxValues, out _, out var maxLocations );
-               return maxValues[0] >= Properties.Settings.Default.MatchTolerance ? maxLocations[0] : Point.Empty;
-            }
-         }
+         using var desktop = CaptureScreen();
+         using var result = desktop.MatchTemplate( _templates[templateId], Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed );
+         result.MinMax( out _, out var maxValues, out _, out var maxLocations );
+         return maxValues[0] >= MatchTolerance ? maxLocations[0] : Point.Empty;
       }
 
       public async Task<(int, Point)> DetectImagesAsync( int[] templateIds )
@@ -66,7 +64,7 @@ namespace VenusSimulator
             }
 
             var foundImage = _templates[templateIds[i]];
-            var location = new Point( results[i].X + foundImage.Width / 2, results[i].Y + foundImage.Height / 2 );
+            var location = new Point( results[i].X + ( foundImage.Width / 2 ), results[i].Y + ( foundImage.Height / 2 ) );
             return (templateIds[i], location);
          }
 
@@ -77,15 +75,13 @@ namespace VenusSimulator
       {
          var desktopSize = new System.Drawing.Size( (int)SystemParameters.VirtualScreenWidth, (int)SystemParameters.VirtualScreenHeight );
 
-         using ( var desktop = new Bitmap( desktopSize.Width, desktopSize.Height, PixelFormat.Format24bppRgb ) )
+         using var desktop = new Bitmap( desktopSize.Width, desktopSize.Height, PixelFormat.Format24bppRgb );
+         using ( var graphics = Graphics.FromImage( desktop ) )
          {
-            using ( var graphics = Graphics.FromImage( desktop ) )
-            {
-               graphics.CopyFromScreen( 0, 0, 0, 0, desktopSize, CopyPixelOperation.SourceCopy );
-            }
-
-            return desktop.ToImage<Gray, byte>();
+            graphics.CopyFromScreen( 0, 0, 0, 0, desktopSize, CopyPixelOperation.SourceCopy );
          }
+
+         return desktop.ToImage<Gray, byte>();
       }
    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace VenusSimulator
 {
-   public partial class MainWindow
+   internal partial class MainWindow
    {
       public MainWindow()
       {

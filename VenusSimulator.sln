@@ -9,6 +9,11 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ZemotoUI", "ZemotoCommon\Ze
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ZemotoUtils", "ZemotoCommon\ZemotoUtils\ZemotoUtils.shproj", "{B50AFE0A-263C-4FB2-8EED-291F6763FBEC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8F224AC5-5E43-40C4-B81A-5141F1222C6E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ZemotoCommon\ZemotoUI\ZemotoUI.projitems*{7542eb89-ecc5-4a33-b7d6-18c2db8ca072}*SharedItemsImports = 13
