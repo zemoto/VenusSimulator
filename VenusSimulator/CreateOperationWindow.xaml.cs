@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 using System.Windows;
-using ZemotoCommon.UI;
+using ZemotoUI;
 
 namespace VenusSimulator
 {

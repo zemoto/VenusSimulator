@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
-using ZemotoCommon.Utils;
+using ZemotoUtils;
 
 namespace VenusSimulator
 {

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
 using System.Windows;
-using ZemotoCommon.Utils;
+using ZemotoUtils;
 using Point = System.Drawing.Point;
 
 namespace VenusSimulator
