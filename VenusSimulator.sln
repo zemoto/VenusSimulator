@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+VisualStudioVersion = 16.0.31829.152
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenusSimulator", "VenusSimulator\VenusSimulator.csproj", "{8E5B6162-8539-47D2-8634-1770B9271623}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenusSimulator", "VenusSimulator\VenusSimulator.csproj", "{8373BA0A-2D30-46C3-BB88-C645C0F78F10}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ZemotoUI", "ZemotoCommon\ZemotoUI\ZemotoUI.shproj", "{7542EB89-ECC5-4A33-B7D6-18C2DB8CA072}"
 EndProject
@@ -12,30 +12,24 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ZemotoCommon\ZemotoUI\ZemotoUI.projitems*{7542eb89-ecc5-4a33-b7d6-18c2db8ca072}*SharedItemsImports = 13
-		ZemotoCommon\ZemotoUI\ZemotoUI.projitems*{8e5b6162-8539-47d2-8634-1770b9271623}*SharedItemsImports = 4
-		ZemotoCommon\ZemotoUtils\ZemotoUtils.projitems*{8e5b6162-8539-47d2-8634-1770b9271623}*SharedItemsImports = 4
+		ZemotoCommon\ZemotoUI\ZemotoUI.projitems*{8373ba0a-2d30-46c3-bb88-c645c0f78f10}*SharedItemsImports = 5
+		ZemotoCommon\ZemotoUtils\ZemotoUtils.projitems*{8373ba0a-2d30-46c3-bb88-c645c0f78f10}*SharedItemsImports = 5
 		ZemotoCommon\ZemotoUtils\ZemotoUtils.projitems*{b50afe0a-263c-4fb2-8eed-291f6763fbec}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8E5B6162-8539-47D2-8634-1770B9271623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E5B6162-8539-47D2-8634-1770B9271623}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E5B6162-8539-47D2-8634-1770B9271623}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8E5B6162-8539-47D2-8634-1770B9271623}.Debug|x86.Build.0 = Debug|Any CPU
-		{8E5B6162-8539-47D2-8634-1770B9271623}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E5B6162-8539-47D2-8634-1770B9271623}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E5B6162-8539-47D2-8634-1770B9271623}.Release|x86.ActiveCfg = Release|Any CPU
-		{8E5B6162-8539-47D2-8634-1770B9271623}.Release|x86.Build.0 = Release|Any CPU
+		{8373BA0A-2D30-46C3-BB88-C645C0F78F10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8373BA0A-2D30-46C3-BB88-C645C0F78F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8373BA0A-2D30-46C3-BB88-C645C0F78F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8373BA0A-2D30-46C3-BB88-C645C0F78F10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A1EE681F-2A7D-4D26-B54E-613F72FE6406}
+		SolutionGuid = {45C728B4-F34A-413B-A790-5B18A4FEA156}
 	EndGlobalSection
 EndGlobal
